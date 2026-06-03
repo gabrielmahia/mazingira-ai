@@ -1,0 +1,13 @@
+import streamlit as st
+st.set_page_config(page_title="Mazingira AI", page_icon="🌿", layout="centered")
+st.markdown("# 🌿 Mazingira AI")
+st.markdown("**Kenya Environmental Compliance and Climate Intelligence**")
+st.info("🚧 **Inaendelea kuundwa** — Hii ni toleo la awali. Vipengele vya kwanza vitakuja hivi karibuni.")
+st.markdown("### Vipengele vinavyokuja:")
+    st.caption("- Mwongozo wa NEMA")
+    st.caption("- Ripoti za uchafuzi wa mazingira")
+    st.caption("- Data za hali ya hewa")
+    st.caption("- Tathmini ya hatari ya mafuriko")
+    st.caption("- Uzingatifu wa misitu")
+st.markdown("---")
+st.caption("⭐ Star repo hii ili kufuatilia maendeleo | gabrielmahia.ai")
