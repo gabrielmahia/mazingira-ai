@@ -4,7 +4,7 @@
 
 Kenya's National Environment Management Authority (NEMA) regulates environment impact across 47 counties, yet most businesses and communities have no practical way to understand their NEMA obligations, file complaints about pollution, or access climate data. Mazingira AI bridges this gap in Swahili.
 
-[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY-NC-ND%204.0-lightgrey.svg)]()
+[![License: MIT License](https://img.shields.io/badge/License-CC%20BY-NC-ND%204.0-lightgrey.svg)]()
 
 ## The Problem
 
