@@ -10,10 +10,9 @@ Kenya's National Environment Management Authority (NEMA) regulates environment i
 
 Kenya's National Environment Management Authority (NEMA) regulates environment impact across 47 counties, yet most businesses and communities have no practical way to understand their NEMA obligations, file complaints about pollution, or access climate data. Mazingira AI bridges this gap in Swahili.
 
-## First-Mover Positioning
+## East Africa Context
 
-Parallel to: EPA compliance tools (US), SEPA (Scotland), climate.gov data portals
-First implementation for East Africa / Swahili context.
+Built for the East African and Swahili-language context — the APIs, regulations, and institutional data this tool connects to are region-specific.
 
 ## Features (Roadmap)
 
