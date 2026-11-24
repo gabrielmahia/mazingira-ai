@@ -1,5 +1,5 @@
 import streamlit as st
-import urllib.request, json
+import html, os, urllib.request, json
 
 st.set_page_config(page_title="Mazingira AI — Mazingira na NEMA", page_icon="🌿", layout="centered")
 st.markdown("""<style>
@@ -9,21 +9,30 @@ st.markdown("""<style>
 .stButton>button{background:#1b5e20;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-weight:700;width:100%}
 </style>""", unsafe_allow_html=True)
 
-API_KEY = st.secrets.get("GOOGLE_API_KEY") or st.secrets.get("GEMINI_API_KEY","")
+def _secret(name):
+    """Read a Streamlit secret, falling back to the environment; never crash when no secrets file exists."""
+    try:
+        v = st.secrets.get(name)
+    except Exception:
+        v = None
+    return v or os.environ.get(name, "")
+
+API_KEY = _secret("GOOGLE_API_KEY") or _secret("GEMINI_API_KEY")
+MODEL = _secret("GEMINI_MODEL") or "gemini-3.5-flash-lite"  # the 1.5 Flash model this app used was retired by Google
 SYSTEM = """Wewe ni mshauri wa mazingira Kenya. Eleza sheria za NEMA na haki za mazingira kwa Kiswahili.
 Toa ushauri wa vitendo na hatua sahihi za kisheria. Kama kuna tatizo la haraka la kimazingira, onyesha namna ya kuripoti."""
 
 def ask(q):
     if not API_KEY: return "❌ API key not configured."
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
     body = {"contents":[{"role":"user","parts":[{"text":q}]}],
             "systemInstruction":{"parts":[{"text":SYSTEM}]},
             "generationConfig":{"temperature":0.25,"maxOutputTokens":700}}
     try:
-        req = urllib.request.Request(url,data=json.dumps(body).encode(),headers={"Content-Type":"application/json"},method="POST")
+        req = urllib.request.Request(url,data=json.dumps(body).encode(),headers={"Content-Type":"application/json","x-goog-api-key":API_KEY},method="POST")
         with urllib.request.urlopen(req,timeout=30) as r:
-            return json.loads(r.read())["candidates"][0]["content"]["parts"][0]["text"]
-    except Exception as e: return f"❌ {e}"
+            return html.escape(json.loads(r.read())["candidates"][0]["content"]["parts"][0]["text"])
+    except Exception as e: return html.escape(f"❌ {e}")
 
 st.markdown("# 🌿 Mazingira AI")
 st.markdown("**Mazingira na NEMA Kenya — Haki na Uzingatifu**")
@@ -36,7 +45,7 @@ with tab1:
         st.markdown(f'<div class="env-card">{result.replace(chr(10),"<br>")}</div>', unsafe_allow_html=True)
 
 with tab2:
-    st.markdown('<div class="alert"><b>Kutaka kuripoti uchafuzi wa mazingira?</b><br>NEMA Hotline: 0800 724 800 (bure) | Email: info@nema.go.ke</div>', unsafe_allow_html=True)
+    st.markdown('<div class="alert"><b>Kutaka kuripoti uchafuzi wa mazingira?</b><br>NEMA (ripoti uchafuzi): 0741 101 100 | Email: incidence@nema.go.ke</div>', unsafe_allow_html=True)
     pollution_type = st.selectbox("Aina ya uchafuzi:", ["Mto/ziwa kumwagwa taka","Hewa chafu ya kiwanda","Taka za kemikali","Kelele kupita kiasi","Ukataji miti haramu","Taka za plastiki","Mafuriko ya maji machafu"])
     county_env = st.selectbox("Kaunti:", ["Nairobi","Mombasa","Kisumu","Nakuru","Thika/Kiambu"])
     if st.button("🚨 Jinsi ya Kuripoti", key="rep_btn"):
@@ -57,4 +66,4 @@ with tab4:
         st.markdown(f'<div class="env-card">{result.replace(chr(10),"<br>")}</div>', unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("🌿 Mazingira AI v1.0 | NEMA: nema.go.ke | Hotline: 0800 724 800 | CC BY-NC-ND 4.0")
+st.caption("🌿 Mazingira AI v1.0 | NEMA: nema.go.ke | Ripoti: 0741 101 100 | CC BY-NC-ND 4.0")
