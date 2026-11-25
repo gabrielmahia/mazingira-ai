@@ -66,4 +66,4 @@ with tab4:
         st.markdown(f'<div class="env-card">{result.replace(chr(10),"<br>")}</div>', unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("🌿 Mazingira AI v1.0 | NEMA: nema.go.ke | Ripoti: 0741 101 100 | CC BY-NC-ND 4.0")
+st.caption("🌿 Mazingira AI v1.0 | NEMA: nema.go.ke | Ripoti: 0741 101 100 | MIT")
